@@ -1,0 +1,116 @@
+<meta charset="UTF-8">
+
+<style>
+body {
+	background-color: pink;
+	margin: 0;
+	padding: 0;
+}
+</style>
+
+<p><font size="5" color="black" face="Helvetica Bold">Tempo para o fim das férias do Danilão:</font></p>
+<canvas id="clock" width="500" height="500" >cccc</canvas>
+
+<script>
+// Set the date we're counting down to
+var countDownDate = new Date("Dec 28, 2017 00:00:00").getTime();
+
+// Update the count down every 1 second 
+/*;var x = setInterval(function() {
+
+  // Get todays date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now an the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+  document.getElementById("canvas").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+
+  // If the count down is finished, write some text 
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "FIM DAS FÉRIAS";
+  }
+}, 1000)*/
+
+var canvas = document.getElementById("clock");
+var ctx = canvas.getContext("2d");
+
+ctx.strokeStyle = '#00ffff';
+ctx.lineWidth = 17;
+ctx.shadowBlur= 15;
+ctx.shadowColor = '#00ffff'
+
+function degToRad(degree){
+	var factor = Math.PI/180;
+	return degree*factor;
+}
+
+function renderTime(){
+	// Get todays date and time
+  	var now = new Date().getTime();
+
+  	// Find the distance between now an the count down date
+  	var distance = countDownDate - now;
+
+	// Time calculations for days, hours, minutes and seconds
+	var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+	var hrs = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	var min = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+	var sec = Math.floor((distance % (1000 * 60)) / 1000);
+	var today = days + "d " + hrs + "h "+ min + "m " + sec + "s ";
+
+	/*var today = now.toDateString();
+	var time = now.toLocaleTimeString();
+	var hrs = now.getHours();
+	var min = now.getMinutes();
+	var sec = now.getSeconds();
+	var mil = now.getMilliseconds();
+	var smoothsec = sec+(mil/1000);
+	var smoothmin = min+(smoothsec/60);*/
+
+	//Background
+	gradient = ctx.createRadialGradient(250, 250, 5, 250, 250, 300);
+	gradient.addColorStop(0, "#03303a");
+	//gradient.addColorStop(1, "black");
+	gradient.addColorStop(1, "pink");
+	ctx.fillStyle = gradient;
+	//ctx.fillStyle = 'rgba(00 ,00 , 00, 1)';
+	ctx.fillRect(0, 0, 500, 500);
+	//Hours
+	ctx.beginPath();
+	ctx.arc(250,250,200, degToRad(270), degToRad((hrs*30)-90));
+	ctx.stroke();
+	//Minutes
+	ctx.beginPath();
+	ctx.arc(250,250,170, degToRad(270), degToRad((min*6)-90));
+	ctx.stroke();
+	//Seconds
+	ctx.beginPath();
+	ctx.arc(250,250,140, degToRad(270), degToRad((sec*6)-90));
+	ctx.stroke();
+	//Date
+	ctx.font = "25px Helvetica";
+	ctx.fillStyle = 'rgba(00, 255, 255, 1)'
+	ctx.fillText(today, 175, 250);
+	/*//Time
+	ctx.font = "25px Helvetica Bold";
+	ctx.fillStyle = 'rgba(00, 255, 255, 1)';
+	ctx.fillText(time+":"+mil, 175, 280);*/
+
+}
+setInterval(renderTime, 1000);
+</script>
+
+
+
+<!-- Display the countdown timer in an element -->
+<h1><p id="demo"></p></h1>
