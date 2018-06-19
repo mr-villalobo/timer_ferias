@@ -1,0 +1,90 @@
+<meta charset="UTF-8">
+
+<style>
+body {
+	background-color: pink;
+	margin: 0;
+	padding: 0;
+}
+</style>
+
+<!-- Title -->
+<p><font size="5" color="black" face="Helvetica">Tempo para o Erwin deixar de ser do Bortho e virar do Massaia:</font></p>
+
+<!-- Paragraph to show when Timer is stoped -->
+<h1><p id="demo"></p></h1>
+
+<!-- The timer is here -->
+<canvas id="clock" width="500" height="500" >cccc</canvas>
+
+<script>
+// Set the date we're counting down to
+var countDownDate = new Date("Jun 21, 2018 17:00:00").getTime();
+
+var canvas = document.getElementById("clock");
+var ctx = canvas.getContext("2d");
+
+ctx.strokeStyle = '#000000';
+ctx.lineWidth = 17;
+ctx.shadowBlur= 15;
+ctx.shadowColor = '#ff4d4d'
+
+function degToRad(degree){
+	var factor = Math.PI/180;
+	return degree*factor;
+}
+
+var x = function renderTime(){
+	// Get todays date and time
+    var now = new Date().getTime();
+
+  	// Find the distance between now an the count down date
+  	var distance = countDownDate - now;
+
+    // If the count down is finished, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("demo").innerHTML = "PARABÉNS MASSAIA!";
+    } else {
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hrs = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var min = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var sec = Math.floor((distance % (1000 * 60)) / 1000);
+        var today = days + "d " + hrs + "h "+ min + "m " + sec + "s ";
+
+        //Background
+        gradient = ctx.createRadialGradient(250, 250, 5, 250, 250, 300);
+        gradient.addColorStop(0, "#ff3333");
+        gradient.addColorStop(1, "pink");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 500, 500);
+        //Days
+        ctx.beginPath();
+        ctx.arc(250,250,230, degToRad(270), degToRad((days*30)-90));
+        ctx.stroke();
+        //Hours
+        ctx.beginPath();
+        ctx.arc(250,250,200, degToRad(270), degToRad((hrs*30)-90));
+        ctx.stroke();
+        //Minutes
+        ctx.beginPath();
+        ctx.arc(250,250,170, degToRad(270), degToRad((min*6)-90));
+        ctx.stroke();
+        //Seconds
+        ctx.beginPath();
+        ctx.arc(250,250,140, degToRad(270), degToRad((sec*6)-90));
+        ctx.stroke();
+        //Date
+        ctx.font = "25px Helvetica";
+        ctx.fillStyle = 'rgba(00, 00, 00, 1)'
+        ctx.fillText(today, 175, 250);
+        
+        
+        setInterval(x, 1000);
+    }
+}
+x();
+</script>
+
+<p><font size="3" color="black" face="Helvetica"><i>Powered by: <b>Martin</b></i></font></p>
